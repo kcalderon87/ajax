@@ -4,8 +4,10 @@
 //====
 	function displayCharacterGif(){
 
-		var character = $(this).data('data-name');
-		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + character + "&api_key=dc6zaTOxFJmzC&limit=10&rating=g&rating=pg";
+		var character = $(this).data('data-comic');
+		var APIKey = "dc6zaTOxFJmzC"
+		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + character + "&api_key=" + APIKey + "&limit=10&rating=g&rating=pg";
+		var limit = 10;
 		
 		$.ajax({url: queryURL, method: 'GET'}).done(function(response) {
 			console.log(response);
@@ -15,5 +17,18 @@
 			for (var i = 0; i < results.length; i++) {
 				var characterDiv = $('<div class="character">');
 				var rating = results[i].rating;
+				var rate = $('<p>').text("Rating: " + rating);
+				var gifImage = $('<img>');
+				
+				gifImage.attr('src', results[i].images.fixed_height.url);
+				characterDiv.append(rate);
+				characterDiv.append(gifImage);
+
+				$('#images').prepend(characterDiv);
 			}
-			
+
+		});
+
+	}
+
+	
