@@ -1,10 +1,10 @@
-//====variable====
+//====variable for buttons====
 	var charactersComic = ['Batman', 'Superman', 'The Flash', 'Captain America', 'Ant-man', 'Spider-man', 'The Joker', 'Poison Ivy', 'Ultron'];
 
-//====
+//====displaying gifs=====
 	function displayCharacterGif(){
 
-		var character = $(this).data('data-comic');
+		var character = $(this).data('comic');
 		var APIKey = "dc6zaTOxFJmzC"
 		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + character + "&api_key=" + APIKey + "&limit=10&rating=g&rating=pg";
 		var limit = 10;
@@ -15,12 +15,19 @@
 			var results = response.data;
 
 			for (var i = 0; i < results.length; i++) {
-				var characterDiv = $('<div class="character">');
+				var characterDiv = $('<div class="col-lg-4">');
 				var rating = results[i].rating;
 				var rate = $('<p>').text("Rating: " + rating);
 				var gifImage = $('<img>');
 				
-				gifImage.attr('src', results[i].images.fixed_height.url);
+				var animated = results[i].images.fixed_height.url;
+             	var still = results[i].images.fixed_height_still.url;
+             	gifImage.attr('src', still);
+             	gifImage.attr('data-still', still);
+             	gifImage.attr('data-animate', animated);
+             	gifImage.attr('data-state', 'still')
+             	gifImage.addClass('gifImage');
+
 				characterDiv.append(rate);
 				characterDiv.append(gifImage);
 
@@ -31,4 +38,55 @@
 
 	}
 
-	
+	// ====Still and animate feature====
+
+	$(document).on('click','.gifImage', function() {
+		var state = $(this).attr('data-state');
+
+		if (state == 'still') {
+			$(this).attr('src', $(this).data('animate'));
+			$(this).attr('data-state', 'animate');
+		}else{
+			$(this).attr('src', $(this).data('still'));
+			$(this).attr('data-state', 'still');
+		}
+	});
+
+	// ====so buttons appear====
+
+	function renderButtons(){ 
+
+		$('#buttonsView').empty();
+
+		for (var i = 0; i < charactersComic.length; i++){
+
+		    var btn = $('<button>');
+		    btn.addClass('character');
+		    btn.data('comic', charactersComic[i]);
+		    btn.text(charactersComic[i]);
+		    $('#buttonsView').append(btn);
+
+		}
+	}
+
+	// ====when button is clicked/submitted====
+
+	$('#addCharacter').on('click', function(){
+
+		var character = $('#choose').val().trim();
+
+		charactersComic.push(character);
+		
+		renderButtons();
+
+		return false;
+	})
+
+	$(document).on('click', '.character', displayCharacterGif);
+
+	renderButtons();
+
+
+	//things to fix:
+	//1. should not push pictures when new btns clicked
+	//2. gifs should be in two columns
