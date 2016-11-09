@@ -15,13 +15,13 @@
 			var results = response.data;
 
 			for (var i = 0; i < results.length; i++) {
-				var characterDiv = $('<div class="col-lg-4">');
+				var characterDiv = $('<div id="show">');
 				var rating = results[i].rating;
 				var rate = $('<p>').text("Rating: " + rating);
 				var gifImage = $('<img>');
 				
+				var still = results[i].images.fixed_height_still.url;
 				var animated = results[i].images.fixed_height.url;
-             	var still = results[i].images.fixed_height_still.url;
              	gifImage.attr('src', still);
              	gifImage.attr('data-still', still);
              	gifImage.attr('data-animate', animated);
@@ -55,7 +55,7 @@
 	// ====so buttons appear====
 
 	function renderButtons(){ 
-
+		//characterDiv.empty();
 		$('#buttonsView').empty();
 
 		for (var i = 0; i < charactersComic.length; i++){
@@ -85,8 +85,8 @@
 	$(document).on('click', '.character', displayCharacterGif);
 
 	renderButtons();
+	$("#gif-form")[0].reset();
 
 
 	//things to fix:
-	//1. should not push pictures when new btns clicked
-	//2. gifs should be in two columns
+	//1. should not add more pictures when new btns clicked

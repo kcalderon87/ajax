@@ -1,0 +1,22 @@
+body {
+	font-family: 'Chewy', cursive;
+	background-color: cyan;
+}
+
+button, form, input {
+	margin: 10px;
+
+}
+
+.pick {
+	font-size: 24px;
+}
+
+div {
+	margin-right: 60px;
+
+}
+
+#show {
+	display: inline-block;
+}
