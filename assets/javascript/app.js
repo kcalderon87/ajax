@@ -85,7 +85,6 @@
 	$(document).on('click', '.character', displayCharacterGif);
 
 	renderButtons();
-	$("#gif-form")[0].reset();
 
 
 	//things to fix:
